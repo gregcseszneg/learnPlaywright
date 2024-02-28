@@ -1,29 +1,33 @@
 import { test, expect, Locator, ElementHandle } from "@playwright/test";
+import { HomePage } from "../pages/home.page";
 
 const path = require("path");
-const url: string = "https://practice.sdetunicorns.com/";
 test.describe("Home page", () => {
+  let homePage: HomePage;
   test("Go to get started", async ({ page }) => {
-    await page.goto(url);
-    await page.locator("#get-started").click();
+    homePage = new HomePage(page);
+    await homePage.navigate();
+    await homePage.getStartedLoc.click();
     await expect(page).toHaveURL(/.*#get-started/);
   });
 
   test("Verify heading text is visible ", async ({ page }) => {
-    await page.goto(url);
-    const headingText = page.locator("text=Think different. Make different.");
-    await expect(headingText).toBeVisible();
+    homePage = new HomePage(page);
+    await homePage.navigate();
+    await expect(homePage.headingText).toBeVisible();
   });
 
   test("Verify home link is enabled using text and css selector ", async ({
     page,
   }) => {
-    await page.goto(url);
-    const homeText = page.locator("#zak-primary-menu >> text=About"); //look for the text inside the primary-menu
-    await expect(homeText).toBeEnabled();
+    homePage = new HomePage(page);
+    await homePage.navigate();
+
+    await expect(homePage.aboutMenuLink).toBeEnabled();
   });
 
   test("Verify nav links ", async ({ page }) => {
+    homePage = new HomePage(page);
     const expectedLinks = [
       "Home",
       "About",
@@ -33,7 +37,7 @@ test.describe("Home page", () => {
       "My account",
     ];
 
-    await page.goto(url);
+    await homePage.navigate();
     const navLinks = page.locator("#zak-primary-menu li[id*=menu]");
     expect(await navLinks.allTextContents()).toEqual(expectedLinks);
 
@@ -48,7 +52,8 @@ test.describe("Home page", () => {
   });
 
   test("Contact form fill out test", async ({ page }) => {
-    await page.goto(url);
+    homePage = new HomePage(page);
+    await homePage.navigate();
     await page.locator("#zak-primary-menu >> text=Contact").click();
 
     const name = "test user";
@@ -68,9 +73,10 @@ test.describe("Home page", () => {
   });
 
   test("Check recent posts number test", async ({ page }) => {
-    await page.goto(url);
+    homePage = new HomePage(page);
+    await homePage.navigate();
     await page.locator("#zak-primary-menu >> text=Blog").click();
-    await expect(page).toHaveURL(url + "blog/");
+    await expect(page).toHaveURL(homePage.pageUrl + "blog/");
     const recentPosts = page.locator("#recent-posts-3 ul li");
 
     await expect(recentPosts).toHaveCount(5);
@@ -81,7 +87,8 @@ test.describe("Home page", () => {
   });
 
   test("upload file test", async ({ page }) => {
-    await page.goto(url + "cart/");
+    homePage = new HomePage(page);
+    await page.goto(homePage.pageUrl + "cart/");
     await expect(page.locator(".zak-page-title")).toContainText("Cart");
     const filePath = path.join(__dirname, "../data/bigone.jpg");
 
@@ -98,7 +105,8 @@ test.describe("Home page", () => {
   });
 
   test("upload file test with DOM manipulation", async ({ page }) => {
-    await page.goto(url + "cart/");
+    homePage = new HomePage(page);
+    await page.goto(homePage.pageUrl + "cart/");
     await expect(page.locator(".zak-page-title")).toContainText("Cart");
     const filePath = path.join(__dirname, "../data/test.png");
 
