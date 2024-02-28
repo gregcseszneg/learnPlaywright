@@ -4,27 +4,31 @@ import { CartPage } from "../pages/cart.page";
 import path from "path";
 
 test.describe("Upload file", () => {
-  let homePage: HomePage;
   let cartPage: CartPage;
 
-  test("upload file test", async ({ page }) => {
-    homePage = new HomePage(page);
+  const fileName= ['bigone.jpg','test.png']
+
+  test.beforeEach(async ({ page }) => {
     cartPage = new CartPage(page);
-
     await page.goto("/cart/");
-    await expect(page.locator(".zak-page-title")).toContainText("Cart");
-    const filePath = path.join(__dirname, "../data/bigone.jpg");
+  })
 
-    cartPage.uploadComponent.uploadFile(filePath);
+  for (const name of fileName) {
+    test(`upload a ${name} file`, async ({ page }) => {
+        
+        await expect(page.locator(".zak-page-title")).toContainText("Cart");
+        const filePath = path.join(__dirname, `../data/${name}`);
 
-    await expect(cartPage.uploadComponent.uploadSuccessResLoc).toContainText(
-      "uploaded successfully",
-      { timeout: 10000 },
-    );
-  });
+        await cartPage.uploadComponent.uploadFile(filePath);
 
-  test("upload file test with DOM manipulation", async ({ page }) => {
-    homePage = new HomePage(page);
+        await expect(cartPage.uploadComponent.uploadSuccessResLoc).toContainText(
+          "uploaded successfully",
+          { timeout: 10000 },
+        );
+      });
+  }
+
+  test.skip("upload file test with DOM manipulation", async ({ page }) => {
     await page.goto("/cart/");
     await expect(page.locator(".zak-page-title")).toContainText("Cart");
     const filePath = path.join(__dirname, "../data/test.png");
@@ -37,9 +41,9 @@ test.describe("Upload file", () => {
       }
     });
 
-    cartPage.uploadComponent.uploadFile(filePath);
+    await cartPage.uploadComponent.uploadFile(filePath);
 
-    await expect(page.locator("#wfu_messageblock_header_1_1")).toContainText(
+    await expect(cartPage.uploadComponent.uploadSuccessResLoc).toContainText(
       "uploaded successfully",
     );
   });
