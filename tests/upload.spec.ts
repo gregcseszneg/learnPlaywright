@@ -1,7 +1,7 @@
 import test, { expect } from "@playwright/test";
 import { HomePage } from "../pages/home.page";
 import { CartPage } from "../pages/cart.page";
-const path = require("path");
+import path from "path";
 
 test.describe("Upload file", () => {
   let homePage: HomePage;

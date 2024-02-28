@@ -1,4 +1,4 @@
-import { test, expect, Locator, ElementHandle } from "@playwright/test";
+import { test, expect} from "@playwright/test";
 import { HomePage } from "../pages/home.page";
 
 test.describe("Home page", () => {
@@ -10,13 +10,13 @@ test.describe("Home page", () => {
     await expect(page).toHaveURL(/.*#get-started/);
   });
 
-  test("Verify heading text is visible ", async ({ page }) => {
+  test("Verify heading text is visible", async ({ page }) => {
     homePage = new HomePage(page);
     await homePage.navigate();
     await expect(homePage.headingText).toBeVisible();
   });
 
-  test("Verify home link is enabled using text and css selector ", async ({
+  test("Verify home link is enabled using text and css selector", async ({
     page,
   }) => {
     homePage = new HomePage(page);
@@ -25,7 +25,7 @@ test.describe("Home page", () => {
     await expect(homePage.aboutMenuLink).toBeEnabled();
   });
 
-  test("Verify nav links ", async ({ page }) => {
+  test("Verify nav links", async ({ page }) => {
     homePage = new HomePage(page);
     const expectedLinks = [
       "Home",
@@ -42,7 +42,7 @@ test.describe("Home page", () => {
 
     //only verify blog button
     const blogLink = page.locator("#zak-primary-menu li[id*=menu]").nth(3);
-    expect(await blogLink.textContent()).toEqual(expectedLinks[3]);
+    await expect(blogLink).toHaveText(expectedLinks[3]);
 
     //loop trough elements
     for (const el of await navLinks.elementHandles()) {
@@ -66,7 +66,7 @@ test.describe("Home page", () => {
     await page.locator("//textarea").fill(message);
     await page.locator("//button[@type='submit']").click();
     const successMessage = page.locator("//div[contains(@class, '--success')]");
-    expect(await successMessage.innerText()).toEqual(
+    await expect(successMessage).toHaveText(
       "Thanks for contacting us! We will be in touch with you shortly",
     );
   });
