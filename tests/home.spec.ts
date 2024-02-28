@@ -75,7 +75,7 @@ test.describe("Home page", () => {
     homePage = new HomePage(page);
     await homePage.navigate();
     await page.locator("#zak-primary-menu >> text=Blog").click();
-    await expect(page).toHaveURL(homePage.pageUrl + "blog/");
+    await expect(page).toHaveURL("/blog/");
     const recentPosts = page.locator("#recent-posts-3 ul li");
 
     await expect(recentPosts).toHaveCount(5);

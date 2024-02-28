@@ -11,7 +11,7 @@ test.describe("Upload file", () => {
     homePage = new HomePage(page);
     cartPage = new CartPage(page);
 
-    await page.goto(homePage.pageUrl + "cart/");
+    await page.goto("/cart/");
     await expect(page.locator(".zak-page-title")).toContainText("Cart");
     const filePath = path.join(__dirname, "../data/bigone.jpg");
 
@@ -25,7 +25,7 @@ test.describe("Upload file", () => {
 
   test("upload file test with DOM manipulation", async ({ page }) => {
     homePage = new HomePage(page);
-    await page.goto(homePage.pageUrl + "cart/");
+    await page.goto("/cart/");
     await expect(page.locator(".zak-page-title")).toContainText("Cart");
     const filePath = path.join(__dirname, "../data/test.png");
 
