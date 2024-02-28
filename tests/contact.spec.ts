@@ -11,7 +11,7 @@ test.describe('Contact page tests', () => {
     })
     
   test("Contact form fill out test", async () => {
-    await contactPage.contactMenuLinkLoc.click();
+
 
     const name = faker.person.fullName();
     const email = faker.internet.email();
