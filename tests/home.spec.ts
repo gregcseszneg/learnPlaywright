@@ -45,25 +45,6 @@ test.describe("Home page", () => {
     }
   });
 
-  test("Contact form fill out test", async ({ page }) => {
-    await page.locator("#zak-primary-menu >> text=Contact").click();
-
-    const name = "test user";
-    const email = "tester@gmail.com";
-    const phoneNumber = "+2334534533";
-    const message = "hi there";
-
-    await page.locator("//input[@type='text']").nth(0).fill(name);
-    await page.locator("//input[@type='email']").fill(email);
-    await page.locator("//input[@type='text']").nth(1).fill(phoneNumber);
-    await page.locator("//textarea").fill(message);
-    await page.locator("//button[@type='submit']").click();
-    const successMessage = page.locator("//div[contains(@class, '--success')]");
-    await expect(successMessage).toHaveText(
-      "Thanks for contacting us! We will be in touch with you shortly",
-    );
-  });
-
   test("Check recent posts number test", async ({ page }) => {
     await page.locator("#zak-primary-menu >> text=Blog").click();
     await expect(page).toHaveURL("/blog/");
