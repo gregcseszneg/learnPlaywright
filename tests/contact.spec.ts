@@ -27,5 +27,5 @@ test.describe('Contact page tests', () => {
       "Thanks for contacting us! We will be in touch with you shortly",
     );
   });  
-})
+});
 
