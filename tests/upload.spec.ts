@@ -1,5 +1,4 @@
 import test, { expect } from "@playwright/test";
-import { HomePage } from "../pages/home.page";
 import { CartPage } from "../pages/cart.page";
 import path from "path";
 
