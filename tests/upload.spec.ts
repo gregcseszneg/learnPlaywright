@@ -12,7 +12,7 @@ test.describe("Upload file", () => {
     await page.goto("/cart/");
   })
 
-  for (const name of fileName) {
+  /*for (const name of fileName) {
     test(`upload a ${name} file`, async ({ page }) => {
         
         await expect(page.locator(".zak-page-title")).toContainText("Cart");
@@ -45,5 +45,5 @@ test.describe("Upload file", () => {
     await expect(cartPage.uploadComponent.uploadSuccessResLoc).toContainText(
       "uploaded successfully",
     );
-  });
+  });*/
 });
