@@ -3,30 +3,26 @@ import { HomePage } from "../pages/home.page";
 
 test.describe("Home page", () => {
   let homePage: HomePage;
-  test("Go to get started", async ({ page }) => {
+
+  test.beforeEach(async ({ page }) => {
     homePage = new HomePage(page);
     await homePage.navigate();
+  })
+  
+  test("Go to get started", async ({ page }) => {
     await homePage.getStartedLoc.click();
     await expect(page).toHaveURL(/.*#get-started/);
   });
 
-  test("Verify heading text is visible", async ({ page }) => {
-    homePage = new HomePage(page);
-    await homePage.navigate();
+  test("Verify heading text is visible", async () => {
     await expect(homePage.headingText).toBeVisible();
   });
 
-  test("Verify home link is enabled using text and css selector", async ({
-    page,
-  }) => {
-    homePage = new HomePage(page);
-    await homePage.navigate();
-
+  test("Verify home link is enabled using text and css selector", async () => {
     await expect(homePage.aboutMenuLink).toBeEnabled();
   });
 
   test("Verify nav links", async ({ page }) => {
-    homePage = new HomePage(page);
     const expectedLinks = [
       "Home",
       "About",
@@ -36,7 +32,6 @@ test.describe("Home page", () => {
       "My account",
     ];
 
-    await homePage.navigate();
     const navLinks = page.locator("#zak-primary-menu li[id*=menu]");
     expect(await navLinks.allTextContents()).toEqual(expectedLinks);
 
@@ -51,8 +46,6 @@ test.describe("Home page", () => {
   });
 
   test("Contact form fill out test", async ({ page }) => {
-    homePage = new HomePage(page);
-    await homePage.navigate();
     await page.locator("#zak-primary-menu >> text=Contact").click();
 
     const name = "test user";
@@ -72,8 +65,6 @@ test.describe("Home page", () => {
   });
 
   test("Check recent posts number test", async ({ page }) => {
-    homePage = new HomePage(page);
-    await homePage.navigate();
     await page.locator("#zak-primary-menu >> text=Blog").click();
     await expect(page).toHaveURL("/blog/");
     const recentPosts = page.locator("#recent-posts-3 ul li");
