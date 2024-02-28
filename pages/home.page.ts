@@ -1,7 +1,7 @@
 import { Locator, Page } from "@playwright/test";
 
 export class HomePage {
-  readonly page: Page;
+  private readonly page: Page;
   readonly pageUrl: string;
   readonly getStartedLoc: Locator;
   readonly headingText: Locator;

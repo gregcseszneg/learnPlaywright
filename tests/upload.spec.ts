@@ -1,22 +1,23 @@
 import test, { expect } from "@playwright/test";
 import { HomePage } from "../pages/home.page";
+import { CartPage } from "../pages/cart.page";
 const path = require("path");
 
-test.describe("", () => {
+test.describe("Upload file", () => {
   let homePage: HomePage;
+  let cartPage: CartPage;
+
   test("upload file test", async ({ page }) => {
     homePage = new HomePage(page);
+    cartPage = new CartPage(page);
+
     await page.goto(homePage.pageUrl + "cart/");
     await expect(page.locator(".zak-page-title")).toContainText("Cart");
     const filePath = path.join(__dirname, "../data/bigone.jpg");
 
-    await page.setInputFiles("input#upfile_1", filePath);
+    cartPage.uploadComponent.uploadFile(filePath);
 
-    await page.locator("#upload_1").click();
-
-    //await page.locator('#wfu_messageblock_header_1_1').waitFor({state: 'visible', timeout: 10000}) //timeout is in ms
-
-    await expect(page.locator("#wfu_messageblock_header_1_1")).toContainText(
+    await expect(cartPage.uploadComponent.uploadSuccessResLoc).toContainText(
       "uploaded successfully",
       { timeout: 10000 },
     );
@@ -36,9 +37,7 @@ test.describe("", () => {
       }
     });
 
-    await page.setInputFiles("input#upfile_1", filePath);
-
-    await page.locator("#upload_1").click();
+    cartPage.uploadComponent.uploadFile(filePath);
 
     await expect(page.locator("#wfu_messageblock_header_1_1")).toContainText(
       "uploaded successfully",
